@@ -249,14 +249,22 @@ static_b:
 \end{lstlisting}
 	其中\texttt{static\_b}在内存中指向如图\ref{fig:static-b}。
 	\end{quotation}
-	\begin{figure}
+	\begin{figure}[htbp]
 		\centering
 		\includegraphics[width=0.5\textwidth]{label-to-data}
 		\caption{static\_b指向的位置}
 		\label{fig:static-b}
 	\end{figure}
-\subsection{内存分配细节}
-	MIPS的内存分配从高地址向低地址分配，所以在申请数组的时候，数组第一个元素的内存地址的值最大，栈空间也是如此，对于之前的那个例子，如果执行\texttt{lw \$t1, static\_b}，则\texttt{\$t1}的值是10。
+\subsection{内存细节}
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[angle=-90, width=0.7\textwidth]{SpimTutorial-page-7}
+		\caption{内存分配}
+		\label{fig:memory-alloc}
+	\end{figure}
+	MIPS的内存分配有一定顺序，栈空间从高地址开始到低地址，堆空间和静态空间从低地址开始到高地址，如图\ref{fig:memory-alloc}，对于之前的那个例子，如果执行\texttt{lw \$t1, static\_b}，则\texttt{\$t1}的值是10。
+\subsection{寄存器的初始化}
+	PC寄存器指向第一条指令，\$sp寄存器指向栈的最高地址(0x80000000)，但是实际运行的时候由于运行时参数的原因\$sp会指向比0x80000000低的地址，具体情况可以参考QtSpim的Data区显示。
 \subsection{其余细节}
 	等待Q\&A之后补充
 \end{document}
