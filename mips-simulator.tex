@@ -200,7 +200,7 @@ Store the n 32-bit quantities in successive memory words.
 					\$a1:读入最长的长度+1 \footnote{如果要读入'abc'，那么\$a1应该设置成4或者更大} \\
 				\end{tabular} & N/A \\
 			\hline 
-			9 & 分配堆内存 & \$a0:需要申请的连续的内存长度 & \$v0:申请结果，即内存片段的首地址 \\
+			9 & 分配堆内存 & \$a0:需要申请的连续的内存长度\footnote{单位：字节} & \$v0:申请结果，即内存片段的首地址\footnote{注意返回的地址要求首地址对齐到$ 2^2 $} \\
 			\hline
 			10 & 结束运行 & N/A & N/A \\
 			\hline
