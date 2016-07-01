@@ -98,7 +98,7 @@ Store the n 32-bit quantities in successive memory words.
 	常数操作指令：
 	\begin{itemize}
 		\item li Rdest, imm	\hfill Load Immediate
-		\item lui Rdest, imm	\hfill Load Upper Immediate\footnote{Load the lower halfword of the immediate imm into the upper halfword of register Rdest. The lower bits of the register are set to 0.}
+		\item \textit{lui Rdest, imm}	\hfill \textit{Load Upper Immediate}\footnote{Load the lower halfword of the immediate imm into the upper halfword of register Rdest. The lower bits of the register are set to 0.}
 	\end{itemize}
 	比较指令\footnote{对于所有的比较指令，结果为真返回1，结果为假则返回-1}：
 	\begin{itemize}
@@ -120,7 +120,7 @@ Store the n 32-bit quantities in successive memory words.
 		\item b label	\hfill Branch instruction. \\
 			Unconditionally branch to the instruction at the label.
 		\item beq Rsrc1, Src2, label	\hfill Branch on Equal
-		\item beqz Rsrc, label	Branch on Equal Zero
+		\item beqz Rsrc, label	\hfill Branch on Equal Zero
 		\item bge Rsrc1, Src2, label	\hfill Branch on Greater Than Equal
 		\item bgeu Rsrc1, Src2, label	\hfill Branch on GTE Unsigned
 		\item bgez Rsrc, label	\hfill Branch on Greater Than Equal Zero
@@ -130,8 +130,8 @@ Store the n 32-bit quantities in successive memory words.
 		\item bgtz Rsrc, label	\hfill Branch on Greater Than Zero
 		\item ble Rsrc1, Src2, label	\hfill Branch on Less Than Equal
 		\item bleu Rsrc1, Src2, label	\hfill Branch on Less Than Equal for Unsigned
-		\item blez Rsrc, label	Branch on Less Than Equal Zero
-		\item bgezal Rsrc, label	Branch on Greater Than Equal Zero And Link
+		\item blez Rsrc, label	\hfill Branch on Less Than Equal Zero
+		\item bgezal Rsrc, label	\hfill Branch on Greater Than Equal Zero And Link
 		\item bltzal Rsrc, label	\hfill Branch on Less Than And Link
 		\item blt Rsrc1, Src2, label	\hfill Branch on Less Than
 		\item bltu Rsrc1, Src2, label	\hfill Branch on Less Than Unsigned
@@ -208,13 +208,15 @@ Store the n 32-bit quantities in successive memory words.
 			\hline
 		\end{tabular}
 	\end{center}
-\subsubsection{细节要求}
+\subsection{统计要求}
+	要求在模拟器中加入统计功能，能够计算出程序从开始运行到结束运行一共执行了多少条指令，能够分别记录算术，跳转，load，store的指令数。
+\subsection{细节要求}
 \subsubsection{5级流水划分}
 	\begin{description}
 		\item[Instruction Fetch] 取指令阶段，按照PC寄存器\footnote{表示当前执行到了那个内存地址的指令，这是一个特殊的寄存器，程序员无法直接修改这个寄存器的值}的值去指定的内存位置读取指令并且加载到寄存器中。
 		\item[Instruction Decode \& Data Preparation] 对Instruction Fetch(IF)（取指令）阶段得到的指令进行解码，并且准备计算所需要的数据
 		\item[Execution] 执行完成这个条指令必要的运算，对于算术和逻辑运算，那么计算出运算结果，对于内存操作，那么计算出实际需要load/store的内存地址\footnote{实际内存地址通过首地址+偏移量的形式给出，所以需要进行一次加法操作}，对于分支指令，可以不用执行运算，但是实际上的MIPS的CPU是通过当前的PC寄存器的值+一个跳转指令的偏移量计算出最终的跳转位置。
-		\item[Memory Access] 访问内存，完成load/store操作。
+		\item[Memory Access] 访问内存，完成load/store指令中要访问内存的部分。
 		\item[Write Back] 回写，把算术，或者逻辑运算的结果写到指定寄存器，把从内存中load到的数据写入指定的寄存器。对于分支语句，在这个阶段会改写PC寄存器。
 	\end{description}
 \subsubsection{寄存器读写顺序}
@@ -227,6 +229,8 @@ Store the n 32-bit quantities in successive memory words.
 		\item[Control Hazard] 对于分支语句和跳转语句之后的语句不能轻易的上流水线，所以就会造成流水线停滞。
 	\end{description}
 	当Hazard发生的时候，模拟器应采取最暴力的做法，等待Hazard消失，然后重新启动流水线。
+	
+	\textbf{注意：指令$ syscall $是一个特殊的指令，这个指令会使用\$v0, \$a0, \$a1这三个寄存器的值，所以如果出现了相关的数据依赖关系，那么会产生一个Data Hazard。同时syscall本身是一个跳转指令（虽然它在执行中并不会程序员感觉到它是一个跳转指令），所以会造成Control Hazard。至于syscall指令的结果应该在第5个阶段的时候和普通的指令一样写回寄存器}
 \section{MIPS汇编语言快速介绍}
 \subsection{汇编语法}
 	\begin{quotation}
