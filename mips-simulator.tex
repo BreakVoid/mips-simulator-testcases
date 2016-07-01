@@ -32,6 +32,17 @@
 	要求全程使用git作为版本管理工具，学习并正确使用git\footnote{正确使用：助教可以通过你们的历史版本和提交记录了解你们的工作情况。如果只有一次或者非常少量的提交记录，那么将被判定为不正确的使用Git，会在一定程度上影响成绩}。
 \subsubsection{Bitbucket}
 	要求把代码推送到bitbucket\footnote{一个与Github类似的远程代码仓库，区别在于Github在免费使用时创建私有仓库的权限，而bitbucket的每个账户可以有5个免费的私有仓库}上，在bitbucket上面的项目名字为\texttt{mips-simulator}\footnote{项目名字很重要，这个关系到评测，直接影响到助教能否正确的通过批量测试脚本获取你们的代码}，并且给用户\texttt{BreakVoid}一个Read权限\footnote{禁止把仓库的权限设置成公开的(public)}。
+\subsection{代码文件要求}
+\subsubsection{Makefile}
+	测试的时候会使用\texttt{make}命令编译程序，因此需要准备Makefile来保证助教可以正常编译代码。
+\subsection{setvars.sh}
+	由于助教并没有对你们的程序的可执行文件名做出要求，同时对于编程语言的选择也没有做出强制要求，为了保证助教可以正常运行程序，需要提供一个shell文件，来设置环境变量。在这个文件里面应该包含一个导出环境变量\texttt{MSCK}的指令，之后助教会提供一个样例的shell文件
+\subsection{程序执行要求}
+	程序要求接受一个传入参数，参数为汇编文件名，然后从stdin读入数据，输出执行过程中必要的输出到stdout，例
+\begin{lstlisting}[frame=single]
+$MSCK example.s
+\end{lstlisting}
+	
 \section{实现要求}
 要求实现的是一个能够正确解释MIPS汇编语言中与整数运算有关的一个子集的模拟器。关于程序的正确性方面，要求实现的模拟器有和SPIM相同的行为。
 \subsection{要求实现的汇编语言特性}
@@ -230,7 +241,7 @@ Store the n 32-bit quantities in successive memory words.
 	\end{description}
 	当Hazard发生的时候，模拟器应采取最暴力的做法，等待Hazard消失，然后重新启动流水线。
 	
-	\textbf{注意：指令$ syscall $是一个特殊的指令，这个指令会使用\$v0, \$a0, \$a1这三个寄存器的值，所以如果出现了相关的数据依赖关系，那么会产生一个Data Hazard。同时syscall本身是一个跳转指令（虽然它在执行中并不会程序员感觉到它是一个跳转指令），所以会造成Control Hazard。至于syscall指令的结果应该在第5个阶段的时候和普通的指令一样写回寄存器}
+	\textbf{注意：指令$ syscall $是一个特殊的指令，这个指令会使用\$v0, \$a0, \$a1这三个寄存器的值，所以如果出现了相关的数据依赖关系，那么会产生一个Data Hazard。同时syscall本身是一个跳转指令（虽然它在执行中并不会程序员感觉到它是一个跳转指令），所以会造成Control Hazard。至于syscall指令的结果应该在第5个阶段的时候和普通的指令一样写回寄存器。}
 \section{MIPS汇编语言快速介绍}
 \subsection{汇编语法}
 	\begin{quotation}
