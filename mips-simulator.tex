@@ -4,14 +4,13 @@
 \usepackage{color}
 \definecolor{myGray}{RGB}{31, 31, 31}
 \usepackage{supertabular}
-\usepackage[colorlinks,
-            linkcolor=myGray,
-            anchorcolor=blue,
-            citecolor=green
-            ]{hyperref}
+\usepackage[
+	colorlinks,
+    linkcolor=myGray,
+	anchorcolor=blue,
+	citecolor=green
+]{hyperref}
 \usepackage{listings}
-\usepackage{bidi}
-\usepackage{bidiftnxtra}
 
 
 \title{PPCA2016大作业：带5级流水的MIPS模拟器}
@@ -208,17 +207,21 @@ Store the n 32-bit quantities in successive memory words.
 			8 & 读入一个字符串 & 
 				\begin{tabular}{p{3.5cm}}
 					\$a0:存放读入字符串的缓冲区 \\
-					\$a1:读入最长的长度+1 \footnote{如果要读入'abc'，那么\$a1应该设置成4或者更大} \\
+					\$a1:读入最长的长度+1 \footnotemark \\
 				\end{tabular} & N/A \\
 			\hline 
-			9 & 分配堆内存 & \$a0:需要申请的连续的内存长度\footnote{单位：字节} & \$v0:申请结果，即内存片段的首地址\footnote{注意返回的地址要求首地址对齐到$ 2^2 $} \\
+			9 & 分配堆内存 & \$a0:需要申请的连续的内存长度\footnotemark & \$v0:申请结果，即内存片段的首地址\footnotemark \\
 			\hline
 			10 & 结束运行 & N/A & N/A \\
 			\hline
-			17 & 结束运行（有返回值）\footnote{C语言中的exit()函数} & \$a0:程序运行结束的返回值 & N/A \\
+			17 & 结束运行（有返回值）\footnotemark & \$a0:程序运行结束的返回值 & N/A \\
 			\hline
 		\end{tabular}
 	\end{center}
+	\footnotetext[19]{如果要读入'abc'，那么\$a1应该设置成4或者更大}
+	\footnotetext[20]{单位：字节}
+	\footnotetext[21]{注意返回的地址要求首地址对齐到$ 2^2 $}
+	\footnotetext[22]{C语言中的exit()函数}
 \subsection{统计要求}
 	要求在模拟器中加入统计功能，能够计算出程序从开始运行到结束运行一共执行了多少条指令，能够分别记录算术，跳转，load，store的指令数。
 \subsection{细节要求}
