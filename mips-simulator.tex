@@ -80,9 +80,15 @@ Store the n 32-bit quantities in successive memory words.
 		\item andi Rdest, Rsrc1, Imm	\hfill AND Immediate
 		\item div Rdest, Rsrc1, Src2	\hfill Divide (with overflow)
 		\item divu Rdest, Rsrc1, Src2	\hfill Divide (without overflow)
+		\item div Rsrc1, Rsrc2	\hfill Divide (with overflow)
+		\item divu Rsrc1, Rsrc2	\hfill Divide (without overflow)\\
+			Divide the contents of the two registers. Leave the quotient in register lo and the remainder in register hi. Note that if an operand is negative, the remainder is unspecified by the MIPS architecture and depends on the conventions of the machine on which SPIM is run.
 		\item mul Rdest, Rsrc1, Src2	\hfill Multiply (without overflow)
 		\item mulo Rdest, Rsrc1, Src2	\hfill Multiply (with overflow)
 		\item mulou Rdest, Rsrc1, Src2	\hfill Unsigned Multiply (with overflow)
+		\item mult Rsrc1, Rsrc2	\hfill Multiply
+		\item multu Rsrc1, Rsrc2	\hfill Unsigned Multiply\\
+			Multiply the contents of the two registers. Leave the low-order word of the product in register lo and the high-word in register hi.
 		\item neg Rdest, Rsrc	\hfill Negate Value (with overflow)
 		\item negu Rdest, Rsrc	\hfill Negate Value (without overflow)
 		\item nor Rdest, Rsrc1, Src2	\hfill NOR
@@ -184,6 +190,9 @@ Store the n 32-bit quantities in successive memory words.
 	\begin{itemize}
 		\item move Rdest, Rsrc	\hfill Move \\
 			Move the contents of Rsrc to Rdest.
+		\item mfhi Rdest	\hfill Move From hi 
+		\item mflo Rdest	\hfill Move From lo \\
+		Move the contents of the hi (lo) register to register Rdest.
 	\end{itemize}
 	特殊指令：
 	\begin{itemize}
@@ -291,4 +300,19 @@ static_b:
 	\end{description}
 \subsection{其余细节}
 	等待Q\&A之后补充
+	
+\section{更新日志}
+\subsection{7月3日}
+	增加了几条MIPS指令的实现要求：
+	\begin{itemize}
+		\item div Rsrc1, Rsrc2	\hfill Divide (with overflow)
+		\item divu Rsrc1, Rsrc2	\hfill Divide (without overflow)\\
+			Divide the contents of the two registers. Leave the quotient in register lo and the remainder in register hi. Note that if an operand is negative, the remainder is unspecified by the MIPS architecture and depends on the conventions of the machine on which SPIM is run.
+		\item mult Rsrc1, Rsrc2	\hfill Multiply
+		\item multu Rsrc1, Rsrc2	\hfill Unsigned Multiply\\
+			Multiply the contents of the two registers. Leave the low-order word of the product in register lo and the high-word in register hi.
+		\item mfhi Rdest	\hfill Move From hi 
+		\item mflo Rdest	\hfill Move From lo \\
+			Move the contents of the hi (lo) register to register Rdest.
+	\end{itemize}
 \end{document}
