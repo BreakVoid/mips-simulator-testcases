@@ -1454,7 +1454,7 @@ _func_____built_in_string_concatenate:
 
 	move $a0, $t3
 	add $a1, $t4, $t0
-	# add $a1, $a1, 1
+	
 	jal _string_copy
 
 	move $v0, $t4
@@ -1508,15 +1508,14 @@ _func_____built_in_toString:
 	sb $v1, 0($t1)
 	sub $t1, $t1, 1
 	mflo $t3
-	# bge $t1, $v0, _continue_toString
+	
 	bnez $t3, _continue_toString
 
 	beqz $t0, _skip_place_neg
 	li $v1, 45
 	sb $v1, 0($t1)
 	_skip_place_neg:
-	# lw $ra, 0($sp)
-	# addu $sp, $sp, 4
+	
 	jr $ra
 
 	_set_zero:
