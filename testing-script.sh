@@ -70,7 +70,6 @@ for name in ${names[@]}; do
         filein=${filec%.s}.in
         fileout=${filec%.s}.ans
         _SC cp $filec data.s
-        echo "TESTING " + $(filec)
         if [ ! -f $filein ]; then 
             timeout $timeo $MSCK data.s 1>msckout 2>/dev/null
         else
